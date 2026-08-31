@@ -17,4 +17,25 @@
 - возобновление случайно завершённой тренировки;
 - обмен с Windows-штабом через `.tonnage` и `.tonnage-db`.
 
-Проект собирается через Expo / EAS Build.
+## Сборка APK
+
+```bash
+cd ~/workout-log
+EAS_SKIP_AUTO_FINGERPRINT=1 npx eas-cli@latest build -p android --profile preview
+```
+
+Android package: `com.diesel.workoutlog`.
+
+## Контрольная точка v0.11.0
+
+SHA-256 `App.tsx`:
+
+`0b3ce399e53a3fbddf1b6ec049e6215fb6b903acb4c7f7ffbc29c9f815d102cc`
+
+SHA-256 актуального APK, переданного 31.08.2026:
+
+`bf263013f377ea526cec2d3acd5d796cc0968b7a3914e23c1f4dfde67a33e74f`
+
+APK не хранится в git-истории. Для бинарных сборок следует использовать GitHub Releases.
+
+До полноценного релиза проект остаётся в ветке версий `0.x`.
