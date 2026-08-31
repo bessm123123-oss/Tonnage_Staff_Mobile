@@ -1,0 +1,36 @@
+name: Materialize App.tsx
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'source-parts/app_part_*.txt'
+      - '.github/workflows/materialize-app.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild App.tsx
+        shell: bash
+        run: |
+          cat source-parts/app_part_*.txt > /tmp/App.tsx.gz.b64
+          base64 -d /tmp/App.tsx.gz.b64 | gunzip > App.tsx
+          echo '0b3ce399e53a3fbddf1b6ec049e6215fb6b903acb4c7f7ffbc29c9f815d102cc  App.tsx' | sha256sum -c -
+      - name: Commit App.tsx
+        shell: bash
+        run: |
+          git config user.name 'TONNAGE Builder'
+          git config user.email 'actions@users.noreply.github.com'
+          git add App.tsx
+          if git diff --cached --quiet; then
+            echo 'App.tsx already current.'
+          else
+            git commit -m 'Add current mobile App.tsx v0.11.0'
+            git push
+          fi
